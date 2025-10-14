@@ -27,6 +27,11 @@ terraform.rc
 **/.terraform/providers/**
 terraform-provider-*
 
+# Ignore SSH keys
+*.pub
+hyperleap-key
+new_hyperleap_key
+
 # Editor and OS files
 .vscode/
 .idea/
