@@ -3,126 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperLeap Games - Project: ROCKET</title>
+    <title>HyperLeap Games</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
         body {
             margin: 0;
-            padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #0d0c1d;
-            background-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0c031a;
+            background-image: url('images/background.png');
             background-size: cover;
             background-position: center;
-            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content-container {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        header {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            height: 100%;
+            position: relative;
             z-index: 2;
         }
 
-        header .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: #fff;
-            text-decoration: none;
-            letter-spacing: 2px;
-        }
-        
-        header nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 30px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-        
-        header nav a:hover {
-            color: #e04dff;
-        }
-
-        .content-box {
-            background-color: rgba(26, 18, 56, 0.7);
-            padding: 50px;
-            border-radius: 20px;
-            border: 1px solid rgba(224, 77, 255, 0.4);
-            box-shadow: 0 0 30px rgba(224, 77, 255, 0.3);
-            backdrop-filter: blur(10px);
-            max-width: 650px;
-            z-index: 1;
+        .hearts {
+            width: 200px;
+            margin-bottom: 20px;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            margin: 0 0 15px 0;
-            color: #e04dff;
-            text-shadow: 0 0 15px #e04dff, 0 0 25px #e04dff;
-            text-transform: uppercase;
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 4px 4px 0 #000;
+            line-height: 1.2;
+            margin: 0;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        h1 span {
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 10px;
         }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            color: #d1d1d1;
+        .scenery {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        .show-more-button {
-            display: inline-block;
-            padding: 15px 40px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(45deg, #e04dff, #ff3b8d);
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(224, 77, 255, 0.6);
-            transition: all 0.3s ease;
+        .scenery img {
+            position: absolute;
+            image-rendering: pixelated; /* Keeps pixel art sharp */
         }
 
-        .show-more-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(224, 77, 255, 1);
+        .tree {
+            width: 150px;
+            bottom: 5%;
+            left: 10%;
+        }
+
+        .fire {
+            width: 80px;
+            bottom: 5%;
+            right: 12%;
+            animation: flicker 0.5s infinite ease-in-out alternate;
+        }
+        
+        .cloud {
+            position: absolute;
+            width: 250px;
+            animation: drift linear infinite;
+            opacity: 0.9;
+            z-index: 0;
+        }
+
+        .cloud-1 { top: 10%; animation-duration: 70s; left: -250px; }
+        .cloud-2 { top: 25%; animation-duration: 90s; left: -250px; animation-delay: 20s; }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        @keyframes flicker {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-5px) scale(1.05); }
+        }
+
+        @keyframes drift {
+            from { transform: translateX(0); }
+            to { transform: translateX(110vw); }
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="#" class="logo">HyperLeap</a>
-        <nav>
-            <a href="#">Portfolio</a>
-            <a href="#">Team</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
+    <img src="images/clouds.png" alt="Pixel Clouds" class="cloud cloud-1">
+    <img src="images/clouds.png" alt="Pixel Clouds" class="cloud cloud-2">
 
-    <div class="content-box">
-        <h1>Rocket Landing Page</h1>
-        <p>This is a demonstration of an immersive landing page deployed via an automated CI/CD pipeline. The infrastructure is managed as code, and updates are delivered seamlessly upon every commit.</p>
-        <a href="#" class="show-more-button">Show More</a>
+    <div class="content-container">
+        <img src="images/hearts.png" alt="Health Bar" class="hearts">
+        <h1>HYPERLEAP GAMES<span>A NEW ERA OF MOBILE GAMING! Stay Tuned for Updates!</span></h1>
     </div>
+
+    <div class="scenery">
+        <img src="images/tree.png" alt="Pixel Tree" class="tree">
+        <img src="images/fire.png" alt="Pixel Fire" class="fire">
+    </div>
+
 </body>
 </html>
