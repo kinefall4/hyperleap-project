@@ -50,6 +50,8 @@ jobs:
           host: ${{ secrets.AWS_HOST }}
           username: ec2-user
           key: ${{ secrets.AWS_SSH_KEY }}
+          debug: true
+          strict_host_key_checking: false 
           script: |
             # Pull the image using the unique tag from the build job
             docker pull kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
