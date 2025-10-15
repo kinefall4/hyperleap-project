@@ -2,13 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HyperLeap Games</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperLeap Games - Project: LEAP</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #121212; color: #ffffff; }
-        h1 { font-size: 3em; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0c0a1f;
+            background-image: url('https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px rgba(76, 209, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            color: #4cd1ff;
+            text-shadow: 0 0 15px #4cd1ff;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            max-width: 600px;
+            color: #c0c0c0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background-color: #ff6a00;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff8c33;
+            box-shadow: 0 0 30px rgba(255, 106, 0, 0.8);
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to HyperLeap Games!</h1>
+    <div class="container">
+        <h1>Project: LEAP</h1>
+        <p>Defy the laws of physics in a mind-bending puzzle platformer where your only weapon is gravity itself. Coming soon.</p>
+        <a href="#" class="cta-button">Wishlist on Steam</a>
+    </div>
 </body>
 </html>
