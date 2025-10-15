@@ -11,10 +11,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Validate HTML files
-        uses: run-w3c-validator/action-html-validator@v1.2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          root: ./src/
+          node-version: '20'
+
+      - name: Install and Run W3C HTML Validator
+        run: |
+          npm install -g w3c-html-validator
+          w3c-html-validator src/index.html
 
   build-and-push:
     needs: test
