@@ -5,7 +5,31 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # --- NEW TESTING JOB ---
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js environment, which is needed to run the linter
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Install the HTML linting tool
+      - name: Install HTML-lint
+        run: npm install -g html-lint
+
+      # Run the linter on all HTML files in the 'src' directory
+      - name: Lint HTML files
+        run: html-lint src/*.html
+
+  # --- UPDATED BUILD JOB ---
   build-and-push:
+    # This job now depends on the 'test' job succeeding
+    needs: test
     runs-on: ubuntu-latest
     outputs:
       image-tag: ${{ steps.set-tag.outputs.image-tag }}
@@ -33,7 +57,9 @@ jobs:
         id: set-tag
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
+  # --- DEPLOY JOB (UNCHANGED) ---
   deploy:
+    # This job still depends on the 'build-and-push' job
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:

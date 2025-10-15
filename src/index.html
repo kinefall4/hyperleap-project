@@ -3,77 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperLeap Games - Project: LEAP</title>
+    <title>HyperLeap Games - Project: ROCKET</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@300&display=swap');
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Orbitron', sans-serif;
-            background-color: #0c0a1f;
-            background-image: url('https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            font-family: 'Roboto', sans-serif;
+            background-color: #0d0c1d;
+            background-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             background-size: cover;
             background-position: center;
             color: #ffffff;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             text-align: center;
+            overflow: hidden;
         }
 
-        .container {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 25px rgba(76, 209, 255, 0.3);
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        header .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+        
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        
+        header nav a:hover {
+            color: #e04dff;
+        }
+
+        .content-box {
+            background-color: rgba(26, 18, 56, 0.7);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(224, 77, 255, 0.4);
+            box-shadow: 0 0 30px rgba(224, 77, 255, 0.3);
+            backdrop-filter: blur(10px);
+            max-width: 650px;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 4rem;
-            margin: 0;
-            color: #4cd1ff;
-            text-shadow: 0 0 15px #4cd1ff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin: 0 0 15px 0;
+            color: #e04dff;
+            text-shadow: 0 0 15px #e04dff, 0 0 25px #e04dff;
+            text-transform: uppercase;
         }
 
         p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            max-width: 600px;
-            color: #c0c0c0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #d1d1d1;
         }
 
-        .cta-button {
+        .show-more-button {
             display: inline-block;
-            margin-top: 30px;
-            padding: 15px 35px;
-            font-size: 1.1rem;
+            padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
             font-weight: 700;
             color: #ffffff;
-            background-color: #ff6a00;
+            background: linear-gradient(45deg, #e04dff, #ff3b8d);
             border: none;
             border-radius: 5px;
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
+            box-shadow: 0 0 20px rgba(224, 77, 255, 0.6);
             transition: all 0.3s ease;
         }
 
-        .cta-button:hover {
-            background-color: #ff8c33;
-            box-shadow: 0 0 30px rgba(255, 106, 0, 0.8);
+        .show-more-button:hover {
             transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(224, 77, 255, 1);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Project: LEAP</h1>
-        <p>Defy the laws of physics in a mind-bending puzzle platformer where your only weapon is gravity itself. Coming soon.</p>
-        <a href="#" class="cta-button">Wishlist on Steam</a>
+    <header>
+        <a href="#" class="logo">HyperLeap</a>
+        <nav>
+            <a href="#">Portfolio</a>
+            <a href="#">Team</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="content-box">
+        <h1>Rocket Landing Page</h1>
+        <p>This is a demonstration of an immersive landing page deployed via an automated CI/CD pipeline. The infrastructure is managed as code, and updates are delivered seamlessly upon every commit.</p>
+        <a href="#" class="show-more-button">Show More</a>
     </div>
 </body>
 </html>
