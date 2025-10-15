@@ -5,27 +5,18 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # --- UPDATED TESTING JOB ---
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install HTML-lint
-        run: npm install -g html-lint
-
-      # --- THIS IS THE NEW FIX ---
-      - name: Install PhantomJS
-        run: npm install -g phantomjs-prebuilt
-      # --------------------------
-
+      # Use a modern, dependency-free linter
       - name: Lint HTML files
-        run: html-lint src/*.html
+        uses: html-validate/action@v1
+        with:
+          files: "src/*.html"
 
   build-and-push:
     needs: test
@@ -41,7 +32,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v5
@@ -51,7 +42,7 @@ jobs:
           tags: |
             kinefall/hyperleap-web:latest
             kinefall/hyperleap-web:${{ github.sha }}
-      
+
       - name: Set image tag output
         id: set-tag
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
