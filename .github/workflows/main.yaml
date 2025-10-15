@@ -11,10 +11,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Lint HTML files
-        uses: html-validate/html-validate-action@v1
+      - name: Validate HTML files
+        uses: run-w3c-validator/action-html-validator@v1.2
         with:
-          files: "src/*.html"
+          root: ./src/
 
   build-and-push:
     needs: test
