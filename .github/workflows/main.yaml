@@ -5,16 +5,14 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # --- UPDATED TESTING JOB ---
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Use a modern, dependency-free linter
       - name: Lint HTML files
-        uses: html-validate/action@v1
+        uses: html-validate/html-validate-action@v1
         with:
           files: "src/*.html"
 
@@ -32,7 +30,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+      
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v5
@@ -42,7 +40,7 @@ jobs:
           tags: |
             kinefall/hyperleap-web:latest
             kinefall/hyperleap-web:${{ github.sha }}
-
+      
       - name: Set image tag output
         id: set-tag
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
