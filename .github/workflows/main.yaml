@@ -32,7 +32,6 @@ jobs:
         id: build
         uses: docker/build-push-action@v5
         with:
-          # This now points the build context directly to the 'src' folder
           context: ./src
           push: true
           tags: |
@@ -56,7 +55,8 @@ jobs:
           strict_host_key_checking: false
           script: |
             set -x
-            docker pull kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
-            docker stop hyperleap-container || true
-            docker rm hyperleap-container || true
-            docker run -d --restart unless-stopped --name hyperleap-container -p 80:80 kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            # --- COMMANDS NOW RUN WITH SUDO ---
+            sudo docker pull kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            sudo docker stop hyperleap-container || true
+            sudo docker rm hyperleap-container || true
+            sudo docker run -d --restart unless-stopped --name hyperleap-container -p 80:80 kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
