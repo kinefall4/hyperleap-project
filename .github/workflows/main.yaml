@@ -55,7 +55,7 @@ deploy:
           debug: true
           strict_host_key_checking: false
           script: |
-            set -ex
+            set -x
 
             echo "--- Starting Docker service ---"
             sudo systemctl start docker
