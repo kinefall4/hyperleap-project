@@ -32,6 +32,7 @@ jobs:
         id: build
         uses: docker/build-push-action@v5
         with:
+
           context: ./src
           push: true
           tags: |
@@ -41,7 +42,7 @@ jobs:
         id: set-tag
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-  deploy:
+deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
@@ -54,9 +55,20 @@ jobs:
           debug: true
           strict_host_key_checking: false
           script: |
-            set -x
-            # --- COMMANDS NOW RUN WITH SUDO ---
+            set -ex
+
+            echo "--- Starting Docker service ---"
+            sudo systemctl start docker
+            sudo systemctl enable docker
+
+            echo "--- Pulling latest Docker image ---"
             sudo docker pull kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+
+            echo "--- Stopping and removing old container ---"
             sudo docker stop hyperleap-container || true
             sudo docker rm hyperleap-container || true
+            
+            echo "--- Running new container ---"
             sudo docker run -d --restart unless-stopped --name hyperleap-container -p 80:80 kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            
+            echo "--- Deployment successful! ---"
