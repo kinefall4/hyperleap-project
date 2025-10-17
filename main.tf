@@ -15,18 +15,20 @@ resource "aws_instance" "hyperleap_server" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = "t3.micro"
 
-  # This script now installs AND enables Docker to start on boot
   user_data = <<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y docker
-              service docker start
-              systemctl enable docker
+    #!/bin/bash
+    yum update -y
+    yum install -y docker
+    service docker start
               usermod -a -G docker ec2-user
+              # Refresh group membership for the current session
+              newgrp docker <<EONG
+              echo "Now in docker group"
+              EONG
               EOF
 
   tags = {
-    Name = "HyperLeap-WebApp-Server"
+    Name = "hyperleap-WebApp-Server"
   }
 }
 
