@@ -20,12 +20,8 @@ resource "aws_instance" "hyperleap_server" {
     yum update -y
     yum install -y docker
     service docker start
-              usermod -a -G docker ec2-user
-              # Refresh group membership for the current session
-              newgrp docker <<EONG
-              echo "Now in docker group"
-              EONG
-              EOF
+    usermod -a -G docker ec2-user
+  EOF
 
   tags = {
     Name = "hyperleap-WebApp-Server"
