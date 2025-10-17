@@ -18,21 +18,17 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Ignore Terraform lockfile (contains dependency pins)
 .terraform.lock.hcl
 
-# Ignore provider binaries and provider folders (sometimes downloaded into .terraform)
 **/.terraform/**/*.exe
 **/.terraform/**/*.zip
 **/.terraform/providers/**
 terraform-provider-*
 
-# Ignore SSH keys
 *.pub
 hyperleap-key
 new_hyperleap_key
 
-# Editor and OS files
 .vscode/
 .idea/
 *.swp
