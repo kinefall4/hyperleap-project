@@ -2,7 +2,9 @@ name: Deploy HyperLeap Website
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]        
+  pull_request:
+    branches: [ "main" ]    
 
 jobs:
   test:
@@ -50,11 +52,12 @@ jobs:
         id: set-tag
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-  deploy:
-    needs: build-and-push
+  deploy-staging:
+    needs: build-and-push            # <-- if your build job has a different id, use that here
     runs-on: ubuntu-latest
+    environment: staging             # marks this as the "staging" environment
     steps:
-      - name: Deploy to AWS EC2
+      - name: Deploy staging on :8080
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.AWS_HOST }}
@@ -66,6 +69,39 @@ jobs:
             set -x
             sudo systemctl start docker
             sudo docker pull kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
-            sudo docker stop hyperleap-container || true
-            sudo docker rm hyperleap-container || true
-            sudo docker run -d --restart unless-stopped --name hyperleap-container -p 80:80 kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            sudo docker stop hyperleap-staging || true
+            sudo docker rm hyperleap-staging || true
+            sudo docker run -d --restart unless-stopped --name hyperleap-staging -p 8080:80 \
+              kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            # smoke test
+            sleep 3
+            curl -sSf http://localhost:8080 >/dev/null
+
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    needs: deploy-staging           
+    runs-on: ubuntu-latest
+    environment:
+      name: production               
+      url: ${{ secrets.PROD_URL }} 
+    steps:
+      - name: Deploy production on :80
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ec2-user
+          key: ${{ secrets.AWS_SSH_KEY }}
+          debug: true
+          strict_host_key_checking: false
+          script: |
+            set -x
+            sudo systemctl start docker
+            sudo docker pull kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            sudo docker stop hyperleap-prod || true
+            sudo docker rm hyperleap-prod || true
+            sudo docker run -d --restart unless-stopped --name hyperleap-prod -p 80:80 \
+              kinefall/hyperleap-web:${{ needs.build-and-push.outputs.image-tag }}
+            # smoke test
+            sleep 3
+            curl -sSf http://localhost >/dev/null
