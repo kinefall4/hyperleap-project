@@ -53,9 +53,9 @@ jobs:
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
   deploy-staging:
-    needs: build-and-push            # <-- if your build job has a different id, use that here
+    needs: build-and-push            
     runs-on: ubuntu-latest
-    environment: staging             # marks this as the "staging" environment
+    environment: staging             
     steps:
       - name: Deploy staging on :8080
         uses: appleboy/ssh-action@v1.0.3
@@ -84,7 +84,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production               
-      url: ${{ secrets.PROD_URL }} 
     steps:
       - name: Deploy production on :80
         uses: appleboy/ssh-action@v1.0.3
