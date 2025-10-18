@@ -64,7 +64,11 @@ jobs:
           username: ec2-user
           key: ${{ secrets.AWS_SSH_KEY }}
           debug: true
-          strict_host_key_checking: false
+          - name: Add host key (safe SSH)
+            run: |
+               mkdir -p ~/.ssh
+               ssh-keyscan -H ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
+               chmod 600 ~/.ssh/known_hosts
           script: |
             set -x
             sudo systemctl start docker
@@ -92,7 +96,11 @@ jobs:
           username: ec2-user
           key: ${{ secrets.AWS_SSH_KEY }}
           debug: true
-          strict_host_key_checking: false
+          - name: Add host key (safe SSH)
+            run: |
+               mkdir -p ~/.ssh
+               ssh-keyscan -H ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
+               chmod 600 ~/.ssh/known_hosts
           script: |
             set -x
             sudo systemctl start docker
