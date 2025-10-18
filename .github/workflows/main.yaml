@@ -2,9 +2,9 @@ name: Deploy HyperLeap Website
 
 on:
   push:
-    branches: [ "main" ]        
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]    
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -37,7 +37,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v5
@@ -47,16 +47,22 @@ jobs:
           tags: |
             kinefall/hyperleap-web:latest
             kinefall/hyperleap-web:${{ github.sha }}
-      
+
       - name: Set image tag output
         id: set-tag
         run: echo "image-tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
   deploy-staging:
-    needs: build-and-push            
+    needs: build-and-push
     runs-on: ubuntu-latest
-    environment: staging             
+    environment: staging
     steps:
+      - name: Add host key (safe SSH)
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
       - name: Deploy staging on :8080
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -64,11 +70,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.AWS_SSH_KEY }}
           debug: true
-          - name: Add host key (safe SSH)
-            run: |
-               mkdir -p ~/.ssh
-               ssh-keyscan -H ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
-               chmod 600 ~/.ssh/known_hosts
+          strict_host_key_checking: false
           script: |
             set -x
             sudo systemctl start docker
@@ -81,14 +83,19 @@ jobs:
             sleep 3
             curl -sSf http://localhost:8080 >/dev/null
 
-
   deploy-production:
     if: github.ref == 'refs/heads/main'
-    needs: deploy-staging           
+    needs: deploy-staging
     runs-on: ubuntu-latest
     environment:
-      name: production               
+      name: production
     steps:
+      - name: Add host key (safe SSH)
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
       - name: Deploy production on :80
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -96,11 +103,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.AWS_SSH_KEY }}
           debug: true
-          - name: Add host key (safe SSH)
-            run: |
-               mkdir -p ~/.ssh
-               ssh-keyscan -H ${{ secrets.AWS_HOST }} >> ~/.ssh/known_hosts
-               chmod 600 ~/.ssh/known_hosts
+          strict_host_key_checking: false
           script: |
             set -x
             sudo systemctl start docker
